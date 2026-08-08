@@ -4,9 +4,10 @@ import { useAuth } from "../lib/auth-context";
 import { supabase } from "../lib/supabase";
 import { getHomePathForRole } from "../lib/roles";
 import { AuthLayout } from "../components/layout/AuthLayout";
+import { LoadingScreen } from "../components/LoadingScreen";
 
 export default function SignupPage() {
-  const { session, profile } = useAuth();
+  const { session, profile, loading } = useAuth();
   const navigate = useNavigate();
 
   const [email, setEmail] = useState("");
@@ -14,13 +15,13 @@ export default function SignupPage() {
   const [error, setError] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
 
+  // Auth is still initializing — show a spinner, not a blank screen
+  if (loading) return <LoadingScreen />;
+
   // Already authenticated — redirect to role home
   if (session && profile) {
     return <Navigate to={getHomePathForRole(profile.role)} replace />;
   }
-
-  // Session exists but profile still loading
-  if (session) return null;
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
