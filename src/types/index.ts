@@ -6,5 +6,7 @@ export interface Profile {
   distributor_id: string | null;
   role: UserRole;
   full_name: string | null;
+  is_active: boolean;
   created_at: string;
+  updated_at: string | null;
 }

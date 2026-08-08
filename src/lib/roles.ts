@@ -1,5 +1,5 @@
 import type { LucideIcon } from "lucide-react";
-import { CheckSquare, ClipboardList, FileUp, Inbox, ShieldCheck } from "lucide-react";
+import { BarChart3, CheckSquare, ClipboardList, FileUp } from "lucide-react";
 import type { UserRole } from "../types";
 
 export interface NavItem {
@@ -10,23 +10,25 @@ export interface NavItem {
 
 export const NAV_ITEMS: Record<UserRole, NavItem[]> = {
   staff: [
+    { label: "Dashboard", to: "/orders", icon: BarChart3 },
     { label: "New Order", to: "/orders/new", icon: FileUp },
-    { label: "My Orders", to: "/orders", icon: ClipboardList },
   ],
   manager: [
+    { label: "Dashboard", to: "/manager", icon: BarChart3 },
+    { label: "Orders", to: "/orders", icon: ClipboardList },
     { label: "New Order", to: "/orders/new", icon: FileUp },
-    { label: "My Orders", to: "/orders", icon: ClipboardList },
-    { label: "Pending Approvals", to: "/approvals", icon: CheckSquare },
+    { label: "Approvals", to: "/approvals", icon: CheckSquare },
   ],
-  distributor: [{ label: "Incoming Orders", to: "/distributor", icon: Inbox }],
-  admin: [{ label: "Admin", to: "/admin", icon: ShieldCheck }],
+  distributor: [{ label: "Dashboard", to: "/distributor", icon: BarChart3 }],
+  admin: [{ label: "Dashboard", to: "/admin", icon: BarChart3 }],
 };
 
 export function getHomePathForRole(role: UserRole): string {
   switch (role) {
     case "staff":
-    case "manager":
       return "/orders";
+    case "manager":
+      return "/manager";
     case "distributor":
       return "/distributor";
     case "admin":

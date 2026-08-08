@@ -8,6 +8,7 @@ import SignupPage from "./pages/Signup";
 import OrdersListPage from "./pages/orders/OrdersList";
 import NewOrderPage from "./pages/orders/NewOrder";
 import ApprovalsPage from "./pages/Approvals";
+import ManagerDashboardPage from "./pages/ManagerDashboard";
 import DistributorDashboardPage from "./pages/DistributorDashboard";
 import AdminPanelPage from "./pages/AdminPanel";
 
@@ -29,8 +30,9 @@ export default function App() {
                 <Route path="/orders/new" element={<NewOrderPage />} />
               </Route>
 
-              {/* Manager-only route */}
+              {/* Manager-only routes */}
               <Route element={<RoleRoute allow={["manager"]} />}>
+                <Route path="/manager" element={<ManagerDashboardPage />} />
                 <Route path="/approvals" element={<ApprovalsPage />} />
               </Route>
 
