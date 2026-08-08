@@ -3,6 +3,7 @@ import { AuthProvider } from "./lib/auth-context";
 import { ProtectedRoute } from "./components/ProtectedRoute";
 import { RoleRoute } from "./components/RoleRoute";
 import { AppShell } from "./components/layout/AppShell";
+import LandingPage from "./pages/Landing";
 import LoginPage from "./pages/Login";
 import SignupPage from "./pages/Signup";
 import OrdersListPage from "./pages/orders/OrdersList";
@@ -17,7 +18,8 @@ export default function App() {
     <BrowserRouter>
       <AuthProvider>
         <Routes>
-          {/* Public auth routes */}
+          {/* Public routes — landing and auth */}
+          <Route path="/" element={<LandingPage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/signup" element={<SignupPage />} />
 
@@ -48,8 +50,8 @@ export default function App() {
             </Route>
           </Route>
 
-          {/* Catch-all: redirect to login */}
-          <Route path="*" element={<Navigate to="/login" replace />} />
+          {/* Catch-all: redirect to landing */}
+          <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </AuthProvider>
     </BrowserRouter>
