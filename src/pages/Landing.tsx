@@ -1,10 +1,10 @@
 import { Link, Navigate } from "react-router-dom";
-import { motion } from "framer-motion";
+import { motion, useScroll, useTransform } from "framer-motion";
 import type { Variants } from "framer-motion";
 import { useAuth } from "../lib/auth-context";
 import { getHomePathForRole } from "../lib/roles";
 import { LoadingScreen } from "../components/LoadingScreen";
-import { AnimatedBackground } from "../components/AnimatedBackground";
+import { HeroScene } from "../components/HeroScene";
 import {
   ArrowRight,
   Camera,
@@ -21,33 +21,33 @@ import {
 /* -------------------------------------------------------------------------- */
 
 const stagger: Variants = {
-  visible: { transition: { staggerChildren: 0.08 } },
+  visible: { transition: { staggerChildren: 0.1 } },
 };
 
 const fadeUp: Variants = {
-  hidden: { opacity: 0, y: 24 },
+  hidden: { opacity: 0, y: 32 },
   visible: {
     opacity: 1,
     y: 0,
-    transition: { duration: 0.6, ease: "easeOut" as const },
+    transition: { duration: 0.7, ease: [0.25, 0.46, 0.45, 0.94] },
   },
 };
 
 const cardVariant: Variants = {
-  hidden: { opacity: 0, y: 24 },
+  hidden: { opacity: 0, y: 32 },
   visible: (i: number) => ({
     opacity: 1,
     y: 0,
-    transition: { duration: 0.5, delay: i * 0.05, ease: "easeOut" as const },
+    transition: { duration: 0.55, delay: i * 0.07, ease: [0.25, 0.46, 0.45, 0.94] },
   }),
 };
 
 const stepVariant: Variants = {
-  hidden: { opacity: 0, y: 20 },
+  hidden: { opacity: 0, y: 28 },
   visible: (i: number) => ({
     opacity: 1,
     y: 0,
-    transition: { duration: 0.5, delay: i * 0.1, ease: "easeOut" as const },
+    transition: { duration: 0.55, delay: i * 0.12, ease: [0.25, 0.46, 0.45, 0.94] },
   }),
 };
 
@@ -91,10 +91,26 @@ const features = [
 ];
 
 const steps = [
-  { step: "01", title: "Upload", desc: "Snap a photo or upload a PDF of your order sheet." },
-  { step: "02", title: "Review", desc: "AI extracts the line items. Edit or add anything in seconds.", },
-  { step: "03", title: "Approve", desc: "A manager reviews and approves — one click.", },
-  { step: "04", title: "Deliver", desc: "The distributor is notified instantly via email.", },
+  {
+    step: "01",
+    title: "Upload",
+    desc: "Snap a photo or upload a PDF of your order sheet.",
+  },
+  {
+    step: "02",
+    title: "Review",
+    desc: "AI extracts the line items. Edit or add anything in seconds.",
+  },
+  {
+    step: "03",
+    title: "Approve",
+    desc: "A manager reviews and approves — one click.",
+  },
+  {
+    step: "04",
+    title: "Deliver",
+    desc: "The distributor is notified instantly via email.",
+  },
 ];
 
 /* -------------------------------------------------------------------------- */
@@ -104,6 +120,11 @@ const steps = [
 export default function LandingPage() {
   const { session, profile, loading } = useAuth();
 
+  // Parallax scroll effect for hero
+  const { scrollY } = useScroll();
+  const heroY = useTransform(scrollY, [0, 600], [0, 120]);
+  const heroOpacity = useTransform(scrollY, [0, 400], [1, 0.3]);
+
   // Still determining auth state — show a clean spinner
   if (loading) return <LoadingScreen />;
 
@@ -111,9 +132,34 @@ export default function LandingPage() {
   if (session && profile) {
     return <Navigate to={getHomePathForRole(profile.role)} replace />;
   }
+
   return (
     <div className="relative min-h-screen overflow-x-hidden bg-background text-foreground">
-      <AnimatedBackground />
+      {/* ── 3D Scene Background ─────────────────────────────────────────── */}
+      <div className="pointer-events-none fixed inset-0 z-0">
+        {/* Rich gradient layer behind the 3D canvas */}
+        <div
+          className="absolute inset-0"
+          style={{
+            background: `
+              radial-gradient(70% 55% at 50% 0%, color-mix(in oklch, var(--color-primary) 22%, transparent) 0%, transparent 70%),
+              radial-gradient(40% 35% at 80% 70%, color-mix(in oklch, var(--color-accent) 12%, transparent) 0%, transparent 60%),
+              radial-gradient(35% 40% at 20% 60%, color-mix(in oklch, var(--color-secondary) 14%, transparent) 0%, transparent 60%),
+              var(--color-background)
+            `,
+          }}
+        />
+        <HeroScene />
+        {/* Subtle dot grid overlay for texture */}
+        <div
+          className="absolute inset-0 opacity-[0.04]"
+          style={{
+            backgroundImage:
+              "radial-gradient(circle, var(--color-foreground) 1px, transparent 1px)",
+            backgroundSize: "32px 32px",
+          }}
+        />
+      </div>
 
       {/* Skip link */}
       <a
@@ -123,97 +169,112 @@ export default function LandingPage() {
         Skip to main content
       </a>
 
-      {/* Nav */}
+      {/* ── Nav ────────────────────────────────────────────────────────── */}
       <motion.header
-        initial={{ opacity: 0, y: -12 }}
+        initial={{ opacity: 0, y: -16 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5, ease: "easeOut" }}
-        className="relative z-20 flex items-center justify-between px-4 py-4 sm:px-6 lg:px-8"
+        transition={{ duration: 0.6, ease: "easeOut" }}
+        className="sticky top-0 z-30 border-b border-transparent bg-background/60 backdrop-blur-xl"
       >
-        <span className="font-heading text-lg font-bold text-primary">SmartOrder AI</span>
-        <div className="flex items-center gap-3">
-          <Link
-            to="/login"
-            className="cursor-pointer rounded-lg px-4 py-2 text-sm font-semibold text-foreground/70 transition-colors duration-150 hover:text-foreground"
-          >
-            Sign in
-          </Link>
-          <Link
-            to="/signup"
-            className="flex cursor-pointer items-center gap-1.5 rounded-lg bg-primary px-4 py-2 text-sm font-semibold text-on-primary transition-all duration-150 hover:opacity-90 active:scale-[0.97]"
-          >
-            Get started <ArrowRight className="h-3.5 w-3.5" aria-hidden="true" />
-          </Link>
-        </div>
+        <nav className="flex items-center justify-between px-4 py-3.5 sm:px-6 lg:px-8">
+          <span className="font-heading text-lg font-bold text-primary">
+            SmartOrder AI
+          </span>
+          <div className="flex items-center gap-3">
+            <Link
+              to="/login"
+              className="cursor-pointer rounded-lg px-4 py-2 text-sm font-semibold text-foreground/70 transition-all duration-200 hover:text-foreground hover:bg-foreground/5"
+            >
+              Sign in
+            </Link>
+            <Link
+              to="/signup"
+              className="flex cursor-pointer items-center gap-1.5 rounded-lg bg-primary px-4 py-2 text-sm font-semibold text-on-primary shadow-sm transition-all duration-200 hover:opacity-90 hover:shadow-md active:scale-[0.97]"
+            >
+              Get started{" "}
+              <ArrowRight className="h-3.5 w-3.5" aria-hidden="true" />
+            </Link>
+          </div>
+        </nav>
       </motion.header>
 
-      {/* Hero */}
+      {/* ── Hero ───────────────────────────────────────────────────────── */}
       <main id="main-content">
         <motion.section
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, amount: 0.3 }}
-          variants={stagger}
-          className="relative z-10 mx-auto max-w-4xl px-4 pb-20 pt-16 text-center sm:pt-24 lg:pt-32"
+          style={{ y: heroY, opacity: heroOpacity }}
+          className="relative z-10 mx-auto max-w-4xl px-4 pb-16 pt-20 text-center sm:pb-24 sm:pt-28 lg:pt-36"
         >
           <motion.div
-            variants={fadeUp}
-            className="mx-auto mb-6 inline-flex items-center gap-1.5 rounded-full border border-primary/20 bg-primary/5 px-4 py-1.5 text-xs font-semibold text-primary"
+            initial={{ opacity: 0, y: 16, scale: 0.96 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            transition={{ duration: 0.6, ease: "easeOut" }}
+            className="mx-auto mb-6 inline-flex items-center gap-1.5 rounded-full border border-primary/15 bg-primary/[0.06] px-4 py-1.5 text-xs font-semibold text-primary backdrop-blur-sm"
           >
             <Clock className="h-3.5 w-3.5" aria-hidden="true" />
             From paper to approved in under 2 minutes
           </motion.div>
 
           <motion.h1
-            variants={fadeUp}
-            className="font-heading text-4xl font-extrabold leading-tight text-foreground sm:text-5xl lg:text-6xl"
+            initial={{ opacity: 0, y: 24 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, delay: 0.1, ease: "easeOut" }}
+            className="font-heading text-4xl font-extrabold leading-tight tracking-tight text-foreground sm:text-5xl lg:text-6xl"
           >
             Turn paper order sheets
             <br />
             into{" "}
-            <span className="bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent">
               structured orders
             </span>{" "}
             in seconds.
           </motion.h1>
 
           <motion.p
-            variants={fadeUp}
-            className="mx-auto mt-6 max-w-2xl text-base text-foreground/60 sm:text-lg"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, delay: 0.2, ease: "easeOut" }}
+            className="mx-auto mt-6 max-w-2xl text-base leading-relaxed text-foreground/55 sm:text-lg"
           >
-            SmartOrder AI uses vision AI to scan handwritten order sheets, extract every line
-            item, and route approved orders to your distributor — automatically.
+            SmartOrder AI uses vision AI to scan handwritten order sheets,
+            extract every line item, and route approved orders to your
+            distributor — automatically.
           </motion.p>
 
-          <motion.div variants={fadeUp} className="mt-8 flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, delay: 0.3, ease: "easeOut" }}
+            className="mt-8 flex flex-col items-center gap-4 sm:flex-row sm:justify-center"
+          >
             <Link
               to="/signup"
-              className="flex w-full cursor-pointer items-center justify-center gap-2 rounded-lg bg-accent px-6 py-3.5 text-base font-bold text-white shadow-md transition-all duration-200 hover:opacity-90 hover:shadow-lg active:scale-[0.97] sm:w-auto"
+              className="flex w-full cursor-pointer items-center justify-center gap-2 rounded-xl bg-accent px-7 py-3.5 text-base font-bold text-white shadow-lg shadow-accent/25 transition-all duration-200 hover:opacity-90 hover:shadow-xl hover:shadow-accent/30 active:scale-[0.97] sm:w-auto"
             >
-              Start your free account <ArrowRight className="h-4 w-4" aria-hidden="true" />
+              Start your free account{" "}
+              <ArrowRight className="h-4 w-4" aria-hidden="true" />
             </Link>
             <Link
               to="/login"
-              className="flex w-full cursor-pointer items-center justify-center gap-2 rounded-lg border-2 border-primary px-6 py-3.5 text-base font-semibold text-primary transition-all duration-200 hover:bg-primary/5 active:scale-[0.97] sm:w-auto"
+              className="flex w-full cursor-pointer items-center justify-center gap-2 rounded-xl border-2 border-primary/30 bg-white/40 px-7 py-3.5 text-base font-semibold text-primary backdrop-blur-sm transition-all duration-200 hover:border-primary/50 hover:bg-white/60 active:scale-[0.97] sm:w-auto"
             >
               Sign in
             </Link>
           </motion.div>
         </motion.section>
 
-        {/* Features grid */}
+        {/* ── Features Grid ─────────────────────────────────────────────── */}
         <motion.section
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: true, amount: 0.2 }}
+          viewport={{ once: true, amount: 0.15 }}
           variants={stagger}
           className="relative z-10 mx-auto max-w-6xl px-4 pb-24"
         >
-          <motion.div variants={fadeUp} className="mb-12 text-center">
-            <p className="text-xs font-semibold uppercase tracking-widest text-primary/70">
+          <motion.div variants={fadeUp} className="mb-14 text-center">
+            <span className="inline-block rounded-full border border-primary/15 bg-primary/[0.05] px-3 py-1 text-xs font-semibold uppercase tracking-widest text-primary/70">
               Why SmartOrder AI
-            </p>
-            <h2 className="mt-3 font-heading text-3xl font-bold text-foreground sm:text-4xl">
+            </span>
+            <h2 className="mt-4 font-heading text-3xl font-bold text-foreground sm:text-4xl">
               Everything you need to manage orders
             </h2>
           </motion.div>
@@ -224,31 +285,38 @@ export default function LandingPage() {
                 key={f.title}
                 variants={cardVariant}
                 custom={i}
-                className="group rounded-2xl border border-border bg-white p-6 transition-shadow duration-200 hover:shadow-lg"
+                className="group cursor-pointer rounded-2xl border border-border/60 bg-white/70 p-6 backdrop-blur-sm transition-all duration-300 hover:border-primary/20 hover:bg-white hover:shadow-xl hover:shadow-primary/[0.04]"
               >
-                <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10 transition-colors duration-200 group-hover:bg-primary/15">
-                  <f.icon className="h-5 w-5 text-primary" aria-hidden="true" />
+                <div className="mb-4 flex h-11 w-11 items-center justify-center rounded-xl bg-gradient-to-br from-primary/10 to-primary/5 transition-all duration-300 group-hover:from-primary/15 group-hover:to-primary/10 group-hover:scale-105">
+                  <f.icon
+                    className="h-5 w-5 text-primary"
+                    aria-hidden="true"
+                  />
                 </div>
-                <h3 className="font-heading text-base font-bold text-foreground">{f.title}</h3>
-                <p className="mt-2 text-sm leading-relaxed text-foreground/60">{f.description}</p>
+                <h3 className="font-heading text-base font-bold text-foreground">
+                  {f.title}
+                </h3>
+                <p className="mt-2 text-sm leading-relaxed text-foreground/55">
+                  {f.description}
+                </p>
               </motion.div>
             ))}
           </div>
         </motion.section>
 
-        {/* How it works */}
+        {/* ── How It Works ──────────────────────────────────────────────── */}
         <motion.section
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: true, amount: 0.2 }}
+          viewport={{ once: true, amount: 0.15 }}
           variants={stagger}
           className="relative z-10 mx-auto max-w-4xl px-4 pb-24"
         >
-          <motion.div variants={fadeUp} className="mb-12 text-center">
-            <p className="text-xs font-semibold uppercase tracking-widest text-primary/70">
+          <motion.div variants={fadeUp} className="mb-14 text-center">
+            <span className="inline-block rounded-full border border-primary/15 bg-primary/[0.05] px-3 py-1 text-xs font-semibold uppercase tracking-widest text-primary/70">
               How it works
-            </p>
-            <h2 className="mt-3 font-heading text-3xl font-bold text-foreground sm:text-4xl">
+            </span>
+            <h2 className="mt-4 font-heading text-3xl font-bold text-foreground sm:text-4xl">
               From paper to distributor in four steps
             </h2>
           </motion.div>
@@ -259,23 +327,30 @@ export default function LandingPage() {
                 key={s.step}
                 variants={stepVariant}
                 custom={i}
-                className="relative text-center"
+                className="relative cursor-pointer text-center"
               >
-                <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-full bg-primary text-lg font-bold text-on-primary">
+                <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-primary to-secondary text-lg font-bold text-white shadow-lg shadow-primary/20 transition-transform duration-200 hover:scale-105">
                   {s.step}
                 </div>
-                <h3 className="font-heading text-base font-bold text-foreground">{s.title}</h3>
-                <p className="mt-2 text-sm leading-relaxed text-foreground/60">{s.desc}</p>
+                <h3 className="font-heading text-base font-bold text-foreground">
+                  {s.title}
+                </h3>
+                <p className="mt-2 text-sm leading-relaxed text-foreground/55">
+                  {s.desc}
+                </p>
                 {/* Connector line between steps (hidden on mobile, last item) */}
                 {i < steps.length - 1 && (
-                  <div className="absolute right-0 top-7 hidden h-0.5 w-full translate-x-[calc(50%+1rem)] bg-border lg:block" aria-hidden="true" />
+                  <div
+                    className="absolute right-0 top-7 hidden h-px w-full translate-x-[calc(50%+1rem)] bg-gradient-to-r from-border to-border/20 lg:block"
+                    aria-hidden="true"
+                  />
                 )}
               </motion.div>
             ))}
           </div>
         </motion.section>
 
-        {/* CTA */}
+        {/* ── CTA ───────────────────────────────────────────────────────── */}
         <motion.section
           initial="hidden"
           whileInView="visible"
@@ -285,27 +360,42 @@ export default function LandingPage() {
         >
           <motion.div
             variants={fadeUp}
-            className="rounded-3xl border border-primary/10 bg-white/80 px-8 py-12 shadow-lg backdrop-blur-sm sm:px-16 sm:py-16"
+            className="relative overflow-hidden rounded-3xl border border-primary/8 bg-white/60 px-8 py-14 shadow-xl shadow-primary/[0.03] backdrop-blur-sm sm:px-16 sm:py-16"
           >
-            <h2 className="font-heading text-3xl font-bold text-foreground sm:text-4xl">
-              Ready to stop typing orders by hand?
-            </h2>
-            <p className="mx-auto mt-4 max-w-lg text-base text-foreground/60">
-              Join supermarkets using SmartOrder AI to save hours every week on order processing.
-            </p>
-            <Link
-              to="/signup"
-              className="mt-8 inline-flex cursor-pointer items-center gap-2 rounded-lg bg-accent px-8 py-4 text-base font-bold text-white shadow-md transition-all duration-200 hover:opacity-90 hover:shadow-lg active:scale-[0.97]"
+            {/* Decorative gradient blobs behind CTA content */}
+            <div
+              className="pointer-events-none absolute inset-0"
+              aria-hidden="true"
             >
-              Get started for free <ArrowRight className="h-4 w-4" aria-hidden="true" />
-            </Link>
+              <div className="absolute -top-20 -right-20 h-64 w-64 rounded-full bg-primary/[0.04] blur-3xl" />
+              <div className="absolute -bottom-20 -left-20 h-64 w-64 rounded-full bg-accent/[0.05] blur-3xl" />
+            </div>
+
+            <div className="relative">
+              <h2 className="font-heading text-3xl font-bold text-foreground sm:text-4xl">
+                Ready to stop typing orders by hand?
+              </h2>
+              <p className="mx-auto mt-4 max-w-lg text-base leading-relaxed text-foreground/55">
+                Join supermarkets using SmartOrder AI to save hours every week
+                on order processing.
+              </p>
+              <Link
+                to="/signup"
+                className="mt-8 inline-flex cursor-pointer items-center gap-2 rounded-xl bg-accent px-8 py-4 text-base font-bold text-white shadow-lg shadow-accent/25 transition-all duration-200 hover:opacity-90 hover:shadow-xl hover:shadow-accent/30 active:scale-[0.97]"
+              >
+                Get started for free{" "}
+                <ArrowRight className="h-4 w-4" aria-hidden="true" />
+              </Link>
+            </div>
           </motion.div>
         </motion.section>
       </main>
 
-      {/* Footer */}
-      <footer className="relative z-10 border-t border-border bg-white/50 px-4 py-8 text-center text-xs text-foreground/40">
-        <p>&copy; {new Date().getFullYear()} SmartOrder AI. All rights reserved.</p>
+      {/* ── Footer ──────────────────────────────────────────────────────── */}
+      <footer className="relative z-10 border-t border-border/40 bg-white/30 px-4 py-8 text-center text-xs text-foreground/35">
+        <p>
+          &copy; {new Date().getFullYear()} SmartOrder AI. All rights reserved.
+        </p>
       </footer>
     </div>
   );
