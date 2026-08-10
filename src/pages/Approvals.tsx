@@ -168,7 +168,7 @@ export default function ApprovalsPage() {
             description="Orders that need your approval will appear here. When staff submit orders for review, you'll see them in this queue."
           />
         ) : (
-          <div className="overflow-x-auto rounded-xl border border-border bg-white">
+          <div className="overflow-x-auto rounded-xl border border-border bg-surface">
             <table className="w-full text-left text-sm">
               <thead className="border-b border-border bg-muted/60">
                 <tr>

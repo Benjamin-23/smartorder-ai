@@ -31,7 +31,7 @@ function StatCard({
   value: string | number;
 }) {
   return (
-    <div className="rounded-xl border border-border bg-white p-4 transition-shadow duration-200 hover:shadow-md">
+    <div className="rounded-xl border border-border bg-surface p-4 transition-shadow duration-200 hover:shadow-md">
       <div className="flex items-center gap-3">
         <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10">
           <Icon className="h-5 w-5 text-primary" aria-hidden="true" />
@@ -61,7 +61,7 @@ function StatusBadge({ status }: { status: string }) {
   const colors: Record<string, string> = {
     draft: "bg-muted text-foreground/60",
     pending_approval: "bg-accent/10 text-accent",
-    approved: "bg-green-100 text-green-700",
+    approved: "bg-success-bg text-success",
     rejected: "bg-destructive/10 text-destructive",
     fulfilled: "bg-secondary/10 text-secondary",
   };
@@ -217,7 +217,7 @@ export default function DistributorDashboardPage() {
             description="When an organization approves an order and sends it to you, it will appear here for fulfillment."
           />
         ) : (
-          <div className="overflow-x-auto rounded-xl border border-border bg-white">
+          <div className="overflow-x-auto rounded-xl border border-border bg-surface">
             <table className="w-full text-left text-sm">
               <thead className="border-b border-border bg-muted/60">
                 <tr>

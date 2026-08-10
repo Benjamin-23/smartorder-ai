@@ -19,7 +19,7 @@ function StatCard({
   sub?: string;
 }) {
   return (
-    <div className="rounded-xl border border-border bg-white p-5 transition-shadow duration-200 hover:shadow-md">
+    <div className="rounded-xl border border-border bg-surface p-5 transition-shadow duration-200 hover:shadow-md">
       <div className="flex items-center gap-3">
         <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10">
           <Icon className="h-5 w-5 text-primary" aria-hidden="true" />
@@ -183,7 +183,7 @@ export default function ManagerDashboard() {
             ))}
           </div>
         ) : team.length === 0 ? (
-          <div className="rounded-xl border border-border bg-white px-6 py-12 text-center">
+          <div className="rounded-xl border border-border bg-surface px-6 py-12 text-center">
             <Users className="mx-auto h-8 w-8 text-foreground/25" aria-hidden="true" />
             <p className="mt-3 text-sm font-medium text-foreground/70">No staff members yet</p>
             <p className="mt-1 text-xs text-foreground/50">
@@ -191,7 +191,7 @@ export default function ManagerDashboard() {
             </p>
           </div>
         ) : (
-          <div className="overflow-x-auto rounded-xl border border-border bg-white">
+          <div className="overflow-x-auto rounded-xl border border-border bg-surface">
             <table className="w-full text-left text-sm">
               <thead className="border-b border-border bg-muted/60">
                 <tr>
@@ -219,7 +219,7 @@ export default function ManagerDashboard() {
                       <span
                         className={`inline-flex rounded-full px-2 py-0.5 text-xs font-semibold ${
                           member.is_active
-                            ? "bg-green-100 text-green-700"
+                            ? "bg-success-bg text-success"
                             : "bg-destructive/10 text-destructive"
                         }`}
                       >
@@ -233,7 +233,7 @@ export default function ManagerDashboard() {
                         className={`inline-flex cursor-pointer items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-semibold transition-all duration-150 active:scale-[0.97] ${
                           member.is_active
                             ? "border border-destructive/30 text-destructive hover:bg-destructive/5"
-                            : "border border-green-300 text-green-700 hover:bg-green-50"
+                            : "border border-success text-success hover:bg-success-bg"
                         }`}
                       >
                         {member.is_active ? (

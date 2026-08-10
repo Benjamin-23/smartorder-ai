@@ -25,7 +25,7 @@ const ALLOWED_TYPES = ["image/jpeg", "image/png", "image/webp", "image/heic", "i
 const MAX_FILE_SIZE = 10 * 1024 * 1024; // 10 MB
 
 const sharedInputClass =
-  "w-full rounded-lg border border-border bg-white px-3 py-2 text-sm text-foreground placeholder:text-foreground/35 transition-colors duration-150 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20";
+  "w-full rounded-lg border border-border bg-surface px-3 py-2 text-sm text-foreground placeholder:text-foreground/35 transition-colors duration-150 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20";
 
 /* -------------------------------------------------------------------------- */
 /*  Helper: generate a short unique key                                       */
@@ -299,7 +299,7 @@ export default function NewOrderPage() {
       </p>
 
       {/* Upload section */}
-      <div className="mt-6 rounded-xl border border-dashed border-border bg-white p-6">
+      <div className="mt-6 rounded-xl border border-dashed border-border bg-surface p-6">
         <div className="flex flex-col items-center gap-4 sm:flex-row sm:justify-between">
           <div>
             <p className="font-heading text-base font-semibold text-foreground">
@@ -398,7 +398,7 @@ export default function NewOrderPage() {
         </div>
 
         {items.length === 0 ? (
-          <div className="rounded-xl border border-border bg-white px-6 py-12 text-center">
+          <div className="rounded-xl border border-border bg-surface px-6 py-12 text-center">
             <ScanLine className="mx-auto h-8 w-8 text-foreground/25" aria-hidden="true" />
             <p className="mt-3 text-sm font-medium text-foreground/70">No items yet</p>
             <p className="mt-1 text-xs text-foreground/50">
@@ -406,7 +406,7 @@ export default function NewOrderPage() {
             </p>
           </div>
         ) : (
-          <div className="overflow-x-auto rounded-xl border border-border bg-white">
+          <div className="overflow-x-auto rounded-xl border border-border bg-surface">
             <table className="w-full text-left text-sm">
               <thead className="border-b border-border bg-muted/60">
                 <tr>

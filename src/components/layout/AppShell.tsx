@@ -2,6 +2,7 @@ import { useState } from "react";
 import { NavLink, Outlet } from "react-router-dom";
 import { LogOut, Menu, X } from "lucide-react";
 import { useAuth } from "../../lib/auth-context";
+import { ThemeToggle } from "../ThemeToggle";
 import { NAV_ITEMS } from "../../lib/roles";
 
 export function AppShell() {
@@ -15,7 +16,7 @@ export function AppShell() {
       {/* Skip to main content link for keyboard users */}
       <a
         href="#main-content"
-        className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-50 focus:rounded-lg focus:bg-white focus:px-4 focus:py-2 focus:text-sm focus:font-semibold focus:text-primary focus:shadow-md focus:ring-2 focus:ring-primary/20"
+        className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-50 focus:rounded-lg focus:bg-surface focus:px-4 focus:py-2 focus:text-sm focus:font-semibold focus:text-primary focus:shadow-md focus:ring-2 focus:ring-primary/20"
       >
         Skip to main content
       </a>
@@ -29,7 +30,7 @@ export function AppShell() {
       )}
 
       <aside
-        className={`fixed z-40 flex h-screen w-64 flex-shrink-0 flex-col overflow-y-auto border-r border-border bg-white transition-transform duration-200 md:static md:translate-x-0 ${
+        className={`fixed z-40 flex h-screen w-64 flex-shrink-0 flex-col overflow-y-auto border-r border-border bg-surface transition-transform duration-200 md:static md:translate-x-0 ${
           mobileOpen ? "translate-x-0" : "-translate-x-full"
         }`}
         aria-label="Main navigation"
@@ -75,7 +76,7 @@ export function AppShell() {
       </aside>
 
       <div className="flex min-h-screen flex-1 flex-col overflow-y-auto">
-        <header className="flex items-center justify-between border-b border-border bg-white px-4 py-3 md:px-6">
+        <header className="flex items-center justify-between border-b border-border bg-surface px-4 py-3 md:px-6">
           <button
             type="button"
             className="cursor-pointer rounded-md p-2 text-foreground/70 transition-colors duration-150 hover:bg-muted md:hidden"
@@ -85,6 +86,7 @@ export function AppShell() {
             <Menu className="h-5 w-5" aria-hidden="true" />
           </button>
           <div className="flex-1" />
+          <ThemeToggle />
           <button
             type="button"
             onClick={() => void signOut()}

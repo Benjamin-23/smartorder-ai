@@ -4,6 +4,8 @@
 @theme {
   --font-sans: "Plus Jakarta Sans", ui-sans-serif, system-ui, -apple-system, sans-serif;
   --font-heading: "Plus Jakarta Sans", ui-sans-serif, system-ui, -apple-system, sans-serif;
+
+  /* ── Light-mode tokens (default) ──────────────────────────────────────── */
   --color-primary: oklch(0.4244 0.1809 265.64);
   --color-on-primary: oklch(1.0 0 0);
   --color-secondary: oklch(0.6231 0.188 259.81);
@@ -14,6 +16,51 @@
   --color-border: oklch(0.9319 0.0316 255.59);
   --color-destructive: oklch(0.5771 0.2152 27.33);
   --color-ring: oklch(0.4244 0.1809 265.64);
+
+  /* Surface token — cards, tables, sidebars (white in light, dark slate in dark) */
+  --color-surface: oklch(1.0 0 0);
+
+  /* Semantic status tokens */
+  --color-success: oklch(0.642 0.185 142.5);
+  --color-success-bg: oklch(0.962 0.044 142.5);
+  --color-warning: oklch(0.6658 0.1574 58.32);
+  --color-warning-bg: oklch(0.965 0.05 78);
+}
+
+/* ── Dark-mode overrides ────────────────────────────────────────────────── */
+.dark {
+  --color-primary: oklch(0.7024 0.1409 258.64);
+  --color-on-primary: oklch(0.1412 0.0451 265.64);
+  --color-secondary: oklch(0.7231 0.128 259.81);
+  --color-accent: oklch(0.7658 0.1274 58.32);
+  --color-background: oklch(0.158 0.008 258);
+  --color-foreground: oklch(0.89 0.02 260);
+  --color-muted: oklch(0.23 0.015 258);
+  --color-border: oklch(0.28 0.02 258);
+  --color-destructive: oklch(0.6771 0.1952 27.33);
+  --color-ring: oklch(0.7024 0.1409 258.64);
+  --color-surface: oklch(0.195 0.012 258);
+
+  /* Semantic status tokens — dark */
+  --color-success: oklch(0.742 0.155 142.5);
+  --color-success-bg: oklch(0.25 0.05 142.5);
+  --color-warning: oklch(0.7658 0.1274 58.32);
+  --color-warning-bg: oklch(0.25 0.05 78);
+}
+
+/* ── Base body styles ───────────────────────────────────────────────────── */
+body {
+  background-color: var(--color-background);
+  color: var(--color-foreground);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ── Focus ring utility ─────────────────────────────────────────────────── */
+*:focus-visible {
+  outline: 2px solid var(--color-ring);
+  outline-offset: 2px;
+  border-radius: 4px;
 }
 
 /* Subtle animated backdrop — auth/marketing screens ONLY, never on data-dense screens. */
@@ -28,4 +75,15 @@
     radial-gradient(color-mix(in oklch, var(--color-foreground) 6%, transparent) 1px, transparent 1px);
   background-size: 100% 100%, 20px 20px;
   background-position: center, center;
+}
+
+/* Dark-mode auth bg: richer glow, lower dot opacity */
+.dark .auth-bg {
+  background-image:
+    radial-gradient(
+      circle at 50% 0%,
+      color-mix(in oklch, var(--color-primary) 22%, transparent) 0%,
+      transparent 55%
+    ),
+    radial-gradient(color-mix(in oklch, var(--color-foreground) 6%, transparent) 1px, transparent 1px);
 }

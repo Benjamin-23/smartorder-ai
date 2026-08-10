@@ -40,10 +40,10 @@ const ROLE_LABELS: Record<string, string> = {
 };
 
 const sharedInputClass =
-  "w-full rounded-lg border border-border bg-white px-4 py-2.5 text-sm text-foreground placeholder:text-foreground/35 transition-colors duration-150 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20";
+  "w-full rounded-lg border border-border bg-surface px-4 py-2.5 text-sm text-foreground placeholder:text-foreground/35 transition-colors duration-150 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20";
 
 const sharedSelectClass =
-  "w-full rounded-lg border border-border bg-white px-4 py-2.5 text-sm text-foreground transition-colors duration-150 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20";
+  "w-full rounded-lg border border-border bg-surface px-4 py-2.5 text-sm text-foreground transition-colors duration-150 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20";
 
 /* -------------------------------------------------------------------------- */
 /*  Modal wrapper                                                             */
@@ -70,7 +70,7 @@ function Modal({
       aria-label={title}
     >
       <div
-        className="mx-4 w-full max-w-md rounded-xl bg-white p-6 shadow-xl"
+        className="mx-4 w-full max-w-md rounded-xl bg-surface p-6 shadow-xl"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="mb-4 flex items-center justify-between">
@@ -151,7 +151,7 @@ function StatCard({
   sub?: string;
 }) {
   return (
-    <div className="rounded-xl border border-border bg-white p-5 transition-shadow duration-200 hover:shadow-md">
+    <div className="rounded-xl border border-border bg-surface p-5 transition-shadow duration-200 hover:shadow-md">
       <div className="flex items-center gap-3">
         <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10">
           <Icon className="h-5 w-5 text-primary" aria-hidden="true" />
@@ -486,7 +486,7 @@ export default function AdminPanelPage() {
             onClick={() => setTab(t.key)}
             className={`flex flex-1 cursor-pointer items-center justify-center gap-2 rounded-lg px-3 py-2 text-sm font-semibold transition-all duration-150 ${
               tab === t.key
-                ? "bg-white text-primary shadow-sm"
+                ? "bg-surface text-primary shadow-sm"
                 : "text-foreground/60 hover:text-foreground"
             }`}
           >
@@ -530,7 +530,7 @@ export default function AdminPanelPage() {
                 ))}
               </div>
             ) : recentOrders.length === 0 ? (
-              <div className="rounded-xl border border-border bg-white px-6 py-12 text-center">
+              <div className="rounded-xl border border-border bg-surface px-6 py-12 text-center">
                 <Package className="mx-auto h-8 w-8 text-foreground/25" aria-hidden="true" />
                 <p className="mt-3 text-sm font-medium text-foreground/70">No orders yet</p>
                 <p className="mt-1 text-xs text-foreground/50">
@@ -538,7 +538,7 @@ export default function AdminPanelPage() {
                 </p>
               </div>
             ) : (
-              <div className="overflow-x-auto rounded-xl border border-border bg-white">
+              <div className="overflow-x-auto rounded-xl border border-border bg-surface">
                 <table className="w-full text-left text-sm">
                   <thead className="border-b border-border bg-muted/60">
                     <tr>
@@ -563,7 +563,7 @@ export default function AdminPanelPage() {
                           <span
                             className={`inline-flex rounded-full px-2 py-0.5 text-xs font-semibold ${
                               o.status === "approved"
-                                ? "bg-green-100 text-green-700"
+                                ? "bg-success-bg text-success"
                                 : o.status === "pending_approval"
                                   ? "bg-accent/10 text-accent"
                                   : o.status === "rejected"
@@ -615,7 +615,7 @@ export default function AdminPanelPage() {
               ))}
             </div>
           ) : distributors.length === 0 ? (
-            <div className="rounded-xl border border-border bg-white px-6 py-12 text-center">
+            <div className="rounded-xl border border-border bg-surface px-6 py-12 text-center">
               <Truck className="mx-auto h-8 w-8 text-foreground/25" aria-hidden="true" />
               <p className="mt-3 text-sm font-medium text-foreground/70">No distributors yet</p>
               <p className="mt-1 text-xs text-foreground/50">
@@ -623,7 +623,7 @@ export default function AdminPanelPage() {
               </p>
             </div>
           ) : (
-            <div className="overflow-x-auto rounded-xl border border-border bg-white">
+            <div className="overflow-x-auto rounded-xl border border-border bg-surface">
               <table className="w-full text-left text-sm">
                 <thead className="border-b border-border bg-muted/60">
                   <tr>
@@ -694,7 +694,7 @@ export default function AdminPanelPage() {
               ))}
             </div>
           ) : organizations.length === 0 ? (
-            <div className="rounded-xl border border-border bg-white px-6 py-12 text-center">
+            <div className="rounded-xl border border-border bg-surface px-6 py-12 text-center">
               <Building2 className="mx-auto h-8 w-8 text-foreground/25" aria-hidden="true" />
               <p className="mt-3 text-sm font-medium text-foreground/70">No organizations yet</p>
               <p className="mt-1 text-xs text-foreground/50">
@@ -702,7 +702,7 @@ export default function AdminPanelPage() {
               </p>
             </div>
           ) : (
-            <div className="overflow-x-auto rounded-xl border border-border bg-white">
+            <div className="overflow-x-auto rounded-xl border border-border bg-surface">
               <table className="w-full text-left text-sm">
                 <thead className="border-b border-border bg-muted/60">
                   <tr>
@@ -768,7 +768,7 @@ export default function AdminPanelPage() {
               ))}
             </div>
           ) : profiles.length === 0 ? (
-            <div className="rounded-xl border border-border bg-white px-6 py-12 text-center">
+            <div className="rounded-xl border border-border bg-surface px-6 py-12 text-center">
               <Users className="mx-auto h-8 w-8 text-foreground/25" aria-hidden="true" />
               <p className="mt-3 text-sm font-medium text-foreground/70">No users signed up yet</p>
               <p className="mt-1 text-xs text-foreground/50">
@@ -776,7 +776,7 @@ export default function AdminPanelPage() {
               </p>
             </div>
           ) : (
-            <div className="overflow-x-auto rounded-xl border border-border bg-white">
+            <div className="overflow-x-auto rounded-xl border border-border bg-surface">
               <table className="w-full text-left text-sm">
                 <thead className="border-b border-border bg-muted/60">
                   <tr>
@@ -829,7 +829,7 @@ export default function AdminPanelPage() {
                           onClick={() => toggleActive(p)}
                           className={`inline-flex cursor-pointer items-center gap-1 rounded-full px-2 py-0.5 text-xs font-semibold transition-all duration-150 ${
                             p.is_active
-                              ? "bg-green-100 text-green-700 hover:bg-green-200"
+                              ? "bg-success-bg text-success hover:bg-green-200"
                               : "bg-destructive/10 text-destructive hover:bg-destructive/20"
                           }`}
                           title={p.is_active ? "Deactivate this user" : "Activate this user"}

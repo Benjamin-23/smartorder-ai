@@ -5,6 +5,7 @@ import { useAuth } from "../lib/auth-context";
 import { getHomePathForRole } from "../lib/roles";
 import { LoadingScreen } from "../components/LoadingScreen";
 import { HeroScene } from "../components/HeroScene";
+import { ThemeToggle } from "../components/ThemeToggle";
 import {
   ArrowRight,
   Camera,
@@ -164,7 +165,7 @@ export default function LandingPage() {
       {/* Skip link */}
       <a
         href="#main-content"
-        className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-50 focus:rounded-lg focus:bg-white focus:px-4 focus:py-2 focus:text-sm focus:font-semibold focus:text-primary focus:shadow-md focus:ring-2 focus:ring-primary/20"
+        className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-50 focus:rounded-lg focus:bg-surface focus:px-4 focus:py-2 focus:text-sm focus:font-semibold focus:text-primary focus:shadow-md focus:ring-2 focus:ring-primary/20"
       >
         Skip to main content
       </a>
@@ -181,6 +182,7 @@ export default function LandingPage() {
             SmartOrder AI
           </span>
           <div className="flex items-center gap-3">
+            <ThemeToggle />
             <Link
               to="/login"
               className="cursor-pointer rounded-lg px-4 py-2 text-sm font-semibold text-foreground/70 transition-all duration-200 hover:text-foreground hover:bg-foreground/5"
@@ -255,7 +257,7 @@ export default function LandingPage() {
             </Link>
             <Link
               to="/login"
-              className="flex w-full cursor-pointer items-center justify-center gap-2 rounded-xl border-2 border-primary/30 bg-white/40 px-7 py-3.5 text-base font-semibold text-primary backdrop-blur-sm transition-all duration-200 hover:border-primary/50 hover:bg-white/60 active:scale-[0.97] sm:w-auto"
+              className="flex w-full cursor-pointer items-center justify-center gap-2 rounded-xl border-2 border-primary/30 bg-surface/40 px-7 py-3.5 text-base font-semibold text-primary backdrop-blur-sm transition-all duration-200 hover:border-primary/50 hover:bg-surface/60 active:scale-[0.97] sm:w-auto"
             >
               Sign in
             </Link>
@@ -285,7 +287,7 @@ export default function LandingPage() {
                 key={f.title}
                 variants={cardVariant}
                 custom={i}
-                className="group cursor-pointer rounded-2xl border border-border/60 bg-white/70 p-6 backdrop-blur-sm transition-all duration-300 hover:border-primary/20 hover:bg-white hover:shadow-xl hover:shadow-primary/[0.04]"
+                className="group cursor-pointer rounded-2xl border border-border/60 bg-surface/70 p-6 backdrop-blur-sm transition-all duration-300 hover:border-primary/20 hover:bg-surface hover:shadow-xl hover:shadow-primary/[0.04]"
               >
                 <div className="mb-4 flex h-11 w-11 items-center justify-center rounded-xl bg-gradient-to-br from-primary/10 to-primary/5 transition-all duration-300 group-hover:from-primary/15 group-hover:to-primary/10 group-hover:scale-105">
                   <f.icon
@@ -360,7 +362,7 @@ export default function LandingPage() {
         >
           <motion.div
             variants={fadeUp}
-            className="relative overflow-hidden rounded-3xl border border-primary/8 bg-white/60 px-8 py-14 shadow-xl shadow-primary/[0.03] backdrop-blur-sm sm:px-16 sm:py-16"
+            className="relative overflow-hidden rounded-3xl border border-primary/8 bg-surface/60 px-8 py-14 shadow-xl shadow-primary/[0.03] backdrop-blur-sm sm:px-16 sm:py-16"
           >
             {/* Decorative gradient blobs behind CTA content */}
             <div
@@ -392,7 +394,7 @@ export default function LandingPage() {
       </main>
 
       {/* ── Footer ──────────────────────────────────────────────────────── */}
-      <footer className="relative z-10 border-t border-border/40 bg-white/30 px-4 py-8 text-center text-xs text-foreground/35">
+      <footer className="relative z-10 border-t border-border/40 bg-surface/30 px-4 py-8 text-center text-xs text-foreground/35">
         <p>
           &copy; {new Date().getFullYear()} SmartOrder AI. All rights reserved.
         </p>
