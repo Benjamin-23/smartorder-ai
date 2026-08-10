@@ -46,7 +46,12 @@ export default function SignupPage() {
       email: email.trim(),
       password,
       options: {
-        emailRedirectTo: `${window.location.origin}/login`,
+        // Always redirect to the live deployed app, even during local dev.
+        // In preview environments window.location.origin is dynamic and works
+        // correctly; for local dev we fall back to the production URL.
+        emailRedirectTo: import.meta.env.DEV
+          ? "https://5kounty7o2ylwej5iy52r3d9c.nativelyai.app/login"
+          : `${window.location.origin}/login`,
       },
     });
 
