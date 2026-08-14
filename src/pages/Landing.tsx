@@ -1,5 +1,5 @@
 import { Link, Navigate } from "react-router-dom";
-import { motion, useScroll, useTransform } from "framer-motion";
+import { motion, useScroll, useTransform, useReducedMotion } from "framer-motion";
 import type { Variants } from "framer-motion";
 import { useAuth } from "../lib/auth-context";
 import { getHomePathForRole } from "../lib/roles";
@@ -44,11 +44,22 @@ const cardVariant: Variants = {
 };
 
 const stepVariant: Variants = {
-  hidden: { opacity: 0, y: 28 },
+  hidden: { opacity: 0, y: 28, rotateY: -90 },
   visible: (i: number) => ({
     opacity: 1,
     y: 0,
-    transition: { duration: 0.55, delay: i * 0.12, ease: [0.25, 0.46, 0.45, 0.94] },
+    rotateY: 0,
+    transition: { duration: 0.65, delay: i * 0.12, ease: [0.25, 0.46, 0.45, 0.94] },
+  }),
+};
+
+// Non-3D fallback for users who prefer reduced motion
+const stepVariantReduced: Variants = {
+  hidden: { opacity: 0, y: 24 },
+  visible: (i: number) => ({
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.45, delay: i * 0.12, ease: "easeOut" },
   }),
 };
 
@@ -120,6 +131,7 @@ const steps = [
 
 export default function LandingPage() {
   const { session, profile, loading } = useAuth();
+  const prefersReducedMotion = useReducedMotion();
 
   // Parallax scroll effect for hero
   const { scrollY } = useScroll();
@@ -323,13 +335,13 @@ export default function LandingPage() {
             </h2>
           </motion.div>
 
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4 [perspective:1200px]">
             {steps.map((s, i) => (
               <motion.div
                 key={s.step}
-                variants={stepVariant}
+                variants={prefersReducedMotion ? stepVariantReduced : stepVariant}
                 custom={i}
-                className="relative cursor-pointer text-center"
+                className="relative cursor-pointer text-center [transform-style:preserve-3d]"
               >
                 <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-primary to-secondary text-lg font-bold text-white shadow-lg shadow-primary/20 transition-transform duration-200 hover:scale-105">
                   {s.step}
